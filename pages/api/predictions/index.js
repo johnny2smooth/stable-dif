@@ -17,7 +17,10 @@ export default async function handler(req, res) {
     version: "db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
 
     // This is the text prompt that will be submitted by a form on the frontend
-    input: { prompt: req.body.prompt },
+    input: {
+      prompt:
+        "A confused programmer in Bikini Bottom trying to access the Replicate API",
+    },
   });
 
   if (prediction?.error) {

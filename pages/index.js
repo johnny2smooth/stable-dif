@@ -16,7 +16,7 @@ export default function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: e.target.prompt.value,
+        url: e.target.prompt.value,
       }),
     });
     let prediction = await response.json();
@@ -28,10 +28,13 @@ export default function Home() {
 
     while (
       prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
+      prediction.status !== "failed" &&
+      prediction.status !== "canceled"
     ) {
+      console.log(prediction);
       await sleep(1000);
       const response = await fetch("/api/predictions/" + prediction.id);
+      // if prediction.output => stream response
       prediction = await response.json();
       if (response.status !== 200) {
         setError(prediction.detail);
@@ -73,12 +76,12 @@ export default function Home() {
         <>
           {prediction.output && (
             <div className="image-wrapper mt-5">
-              <Image
+              {/* <Image
                 fill
                 src={prediction.output[prediction.output.length - 1]}
                 alt="output"
                 sizes="100vw"
-              />
+              /> */}
             </div>
           )}
           <p className="py-3 text-sm opacity-50">status: {prediction.status}</p>
